@@ -42,5 +42,4 @@ class WindowsMain(LoadMap):
                     continuer = False
                 if event.type == KEYDOWN and event.key == K_SPACE:
                     print("Espace")
-                    # Constructor. Pass in the color of the block,
 
