@@ -1,8 +1,8 @@
 import os
-class loadMap:
+class LoadMap:
 
     # Create variables for instance
-    def __init__(self, level):
+    def __init__(self, level=1):
         self.mapList = []
         self.level = level
         self.mapRead = str()
