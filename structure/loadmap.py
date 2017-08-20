@@ -28,3 +28,4 @@ class LoadMap:
     def getMap(self):
         return self.mapList
 
+
