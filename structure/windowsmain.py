@@ -1,85 +1,95 @@
 from pygame import *
-import pygame, os
+import os, pygame
 from structure.loadmap import LoadMap
-from structure.character import Character
+from structure.hero import Hero
+from structure.boss import Boss
+from structure.environment import Environment
 # Initialise Class for Windows main
-class WindowsMain(LoadMap,Character):
+class WindowsMain():
 
     def __init__(self, width=640,height=640):
         pygame.init()
-
-        LoadMap.__init__(self)
+        self.loadmap = LoadMap()
         self.width = width
         self.height = height
         self.SpriteCreate = False
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.display = pygame.display.set_caption("Help MacGyver to escape")
-        Character.__init__(self)
-        self.boss = pygame.image.load(self.roadPictures('boss.png')).convert()
-        self.boss.set_colorkey((255,255,255))
-        self.bossRect = self.boss.get_rect()
-        self.wall = pygame.image.load(self.roadPictures('wall.png')).convert()
-        self.wallRect = self.wall.get_rect()
-        self.floor = pygame.image.load(self.roadPictures('floor.png')).convert()
-        self.floorRect = self.floor.get_rect()
-        self.readFolderMap()
-        self.createMapList()
+        self.hero = Hero("down_hero.png", "up_hero.png", "left_hero.png", "right_hero.png")
+        self.boss = Boss("down_boss.png", "up_boss.png","left_boss.png","right_boss.png")
+        self.wall = Environment("wall.png")
+        self.wall_list= []
+        self.floor = Environment("floor.png")
+        self.loadmap.readFolderMap()
+        self.loadmap.createMapList()
         self.ScreenSprite()
         pygame.display.flip()
         pygame.key.set_repeat(5, 50)
     def roadPictures(self,fichier):
+
         return os.path.join('pictures',fichier)
     def ScreenSprite(self):
         i = 0
         ii = 0
-        while i != len(self.mapList):
-            while ii != len(self.mapList[i]):
+        while i != len(self.loadmap.mapList):
+            while ii != len(self.loadmap.mapList[i]):
                 x = ii * 40
                 y = i * 40
 
-                if self.mapList[i][ii] == "W":
-                    self.wallRect.x = x
-                    self.wallRect.y = y
-                    self.screen.blit(self.wall, self.wallRect)
-                if self.mapList[i][ii] == "F" or self.mapList[i][ii] == "B" or self.mapList[i][ii] == "C":
-                    self.floorRect.x = x
-                    self.floorRect.y = y
-                    self.screen.blit(self.floor,self.floorRect)
-                if self.mapList[i][ii] == "B":
-                    self.bossRect.x = x
-                    self.bossRect.y = y
-                    self.screen.blit(self.boss, self.bossRect)
-                if self.mapList[i][ii] == "C" and self.SpriteCreate == False:
-                    self.characterRect.x = x
-                    self.characterRect.y = y
-                    self.screen.blit(self.characterRight, self.characterRect)
+                if self.loadmap.mapList[i][ii] == "W":
+                    self.wall = Environment("wall.png")
+                    self.wall.rect.x = x
+                    self.wall.rect.y = y
+                    self.wall_list.append(self.wall.rect)
+                    self.screen.blit(self.wall.image, self.wall.rect)
+                if self.loadmap.mapList[i][ii] == "F" or self.loadmap.mapList[i][ii] == "B" or self.loadmap.mapList[i][ii] == "C":
+                    self.floor = Environment("floor.png")
+                    self.floor.rect.x = x
+                    self.floor.rect.y = y
+                    self.screen.blit(self.floor.image,self.floor.rect)
+                if self.loadmap.mapList[i][ii] == "B":
+                    self.boss.characterRect.x = x
+                    self.boss.characterRect.y = y
+                    self.screen.blit(self.boss.characterUp, self.boss.characterRect)
+                if self.loadmap.mapList[i][ii] == "C" and self.SpriteCreate == False:
+                    self.hero.characterRect.x = x
+                    self.hero.characterRect.y = y
+                    self.screen.blit(self.hero.characterDown, self.hero.characterRect)
 
                 ii += 1
             ii = 0
             i += 1
         self.SpriteCreate = True
-
     def mainloop(self):
         continues = True
-
         while continues:
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     continues = False
                 if event.type == KEYDOWN and event.key == K_RIGHT:
-                    self.moveCharacter("RIGHT")
+                    self.hero.moveCharacter("RIGHT",40)
+                    if self.hero.characterRect.collidelist(self.wall_list) > 0:
+                        self.hero.moveCharacter("RIGHT",-40)
                     self.ScreenSprite()
-                    self.screen.blit(self.characterRight, self.characterRect)
+                    self.screen.blit(self.hero.characterRight, self.hero.characterRect)
                 if event.type == KEYDOWN and event.key == K_LEFT:
-                    self.moveCharacter("LEFT")
+                    self.hero.moveCharacter("LEFT",40)
+                    if self.hero.characterRect.collidelist(self.wall_list) > 0:
+                        self.hero.moveCharacter("LEFT",-40)
                     self.ScreenSprite()
-                    self.screen.blit(self.characterLeft, self.characterRect)
+                    self.screen.blit(self.hero.characterLeft, self.hero.characterRect)
                 if event.type == KEYDOWN and event.key == K_DOWN:
-                    self.moveCharacter("DOWN")
+                    self.hero.moveCharacter("DOWN",40)
+                    if self.hero.characterRect.collidelist(self.wall_list) > 0:
+                        self.hero.moveCharacter("DOWN",-40)
                     self.ScreenSprite()
-                    self.screen.blit(self.characterDown, self.characterRect)
+                    self.screen.blit(self.hero.characterDown, self.hero.characterRect)
                 if event.type == KEYDOWN and event.key == K_UP:
-                    self.moveCharacter("UP")
+                    self.hero.moveCharacter("UP",40)
+                    if self.hero.characterRect.collidelist(self.wall_list) > 0:
+                        self.hero.moveCharacter("UP",-40)
                     self.ScreenSprite()
-                    self.screen.blit(self.characterUp, self.characterRect)
+                    self.screen.blit(self.hero.characterUp, self.hero.characterRect)
             pygame.display.flip()
+
