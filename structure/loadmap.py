@@ -1,6 +1,4 @@
-import os
 class LoadMap:
-
     # Create variables for instance
     def __init__(self, level=1):
         self.mapList = []
@@ -13,7 +11,7 @@ class LoadMap:
         with open(levelMap, "r") as map:
             self.mapRead = map.read()
 
-    #Create list on two level
+    # Create list on two level
     def createMapList(self):
         listBuild = []
         for level in self.mapRead:
@@ -23,9 +21,7 @@ class LoadMap:
             else:
                 listBuild.append(level)
 
-    #Return of a list in encapsulation
+    # Return of a list in encapsulation
     @property
     def getMap(self):
         return self.mapList
-
-
