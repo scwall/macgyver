@@ -1,7 +1,8 @@
-#Trouver image pour la seringle
+# Trouver image pour la seringle
 import os
-
+import random
 import pygame
+from structure.loadmap import LoadMap
 
 
 class Objet():
@@ -9,12 +10,20 @@ class Objet():
         self.list = []
         for picture_tuple in picture:
             self.image = pygame.image.load(self.roadPictures(str(picture_tuple))).convert()
+            self.image.set_colorkey((255, 255, 255))
             self.rect = self.image.get_rect()
-            self.list.append(self.rect)
-        print(self.list)
-        print(self.image)
+            self.list.append(self.image)
 
     def roadPictures(self, fichier):
         return os.path.join('pictures', fichier)
 
-
+    def randomObjet(self, map):
+        maplist = list(map)
+        iii = 0
+        while iii != len(self.list):
+            i = random.randrange(2, (len(maplist) - 2))
+            ii = random.randrange(2, (len(maplist[i]) - 2))
+            if maplist[i][ii] == "F":
+                maplist[i][ii] = "O"
+                iii += 1
+        return maplist

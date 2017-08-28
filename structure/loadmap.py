@@ -20,8 +20,3 @@ class LoadMap:
                 listBuild = []
             else:
                 listBuild.append(level)
-
-    # Return of a list in encapsulation
-    @property
-    def getMap(self):
-        return self.mapList

@@ -1,17 +1,18 @@
 import pygame
 from pygame import *
-
+import random
 from structure.boss import Boss
 from structure.environment import Environment
 from structure.hero import Hero
 from structure.loadmap import LoadMap
+from structure.objets import Objet
 
 
 # Initialise Class for Windows main
 class WindowsMain():
     def __init__(self, width=640, height=640):
         pygame.init()
-        self.loadmap = LoadMap()
+
         self.width = width
         self.height = height
         self.SpriteCreate = False
@@ -22,8 +23,11 @@ class WindowsMain():
         self.wall = Environment("wall.png")
         self.wall_list = []
         self.floor = Environment("floor.png")
+        self.objet = Objet("fishing_rod.png", "pestle.png")
+        self.loadmap = LoadMap()
         self.loadmap.readFolderMap()
         self.loadmap.createMapList()
+        self.loadmap.mapList = self.objet.randomObjet(self.loadmap.mapList)
         self.ScreenSprite()
         pygame.display.flip()
         pygame.key.set_repeat(5, 50)
@@ -35,11 +39,11 @@ class WindowsMain():
     def ScreenSprite(self):
         i = 0
         ii = 0
+        iii = 0
         while i != len(self.loadmap.mapList):
             while ii != len(self.loadmap.mapList[i]):
                 x = ii * 40
                 y = i * 40
-
                 if self.loadmap.mapList[i][ii] == "W":
                     self.wall = Environment("wall.png")
                     self.wall.rect.x = x
@@ -47,7 +51,7 @@ class WindowsMain():
                     self.wall_list.append(self.wall.rect)
                     self.screen.blit(self.wall.image, self.wall.rect)
                 if self.loadmap.mapList[i][ii] == "F" or self.loadmap.mapList[i][ii] == "B" or self.loadmap.mapList[i][
-                    ii] == "C":
+                    ii] == "C" or self.loadmap.mapList[i][ii] == "O":
                     self.floor = Environment("floor.png")
                     self.floor.rect.x = x
                     self.floor.rect.y = y
@@ -60,10 +64,18 @@ class WindowsMain():
                     self.hero.characterRect.x = x
                     self.hero.characterRect.y = y
                     self.screen.blit(self.hero.characterDown, self.hero.characterRect)
-
+                if self.loadmap.mapList[i][ii] == "O":
+                    self.objet.rect.x = x
+                    self.objet.rect.y = y
+                    self.screen.blit(self.objet.list[iii], self.objet.rect)
+                    iii += 1
                 ii += 1
             ii = 0
             i += 1
+
+        i = 0
+        iii = 0
+
         self.SpriteCreate = True
 
     def mainloop(self):
