@@ -18,7 +18,6 @@ class Objet():
             self.list_rect[i] = self.rect
             i += 1
 
-
     def roadPictures(self, fichier):
         return os.path.join('pictures', fichier)
 
@@ -31,8 +30,9 @@ class Objet():
             if maplist[i][ii] == "F":
                 maplist[i][ii] = iii
                 iii += 1
-
+            print(maplist)
         return maplist
+
     def removeObjet(self, number):
         if number in self.list.keys():
             del self.list[number]

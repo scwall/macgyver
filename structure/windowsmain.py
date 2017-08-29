@@ -23,8 +23,8 @@ class WindowsMain():
         self.wall_list = list()
         self.floor = Environment("floor.png")
         self.objet = Objet("fishing_rod.png", "pestle.png")
-        self.objet_list = list()
-        self.loadmap = LoadMap()
+        self.objet_list = dict()
+        self.loadmap = LoadMap(level=1)
         self.loadmap.readFolderMap()
         self.loadmap.createMapList()
         self.loadmap.mapList = self.objet.randomObjet(self.loadmap.mapList)
@@ -39,7 +39,7 @@ class WindowsMain():
     def ScreenSprite(self):
         i = 0
         ii = 0
-
+        iii = 0
         while i != len(self.loadmap.mapList):
             while ii != len(self.loadmap.mapList[i]):
                 x = ii * 40
@@ -67,9 +67,10 @@ class WindowsMain():
                     valuekeys = self.loadmap.mapList[i][ii]
                     self.objet.list_rect[valuekeys].x = x
                     self.objet.list_rect[valuekeys].y = y
-                    self.objet_list.append(self.objet.list_rect[valuekeys])
+                    # self.objet_list.append(self.objet.list_rect[valuekeys])
+                    self.objet_list[valuekeys] = self.objet.list_rect[valuekeys]
                     self.screen.blit(self.objet.list[valuekeys], self.objet.list_rect[valuekeys])
-
+                iii += 1
                 ii += 1
             ii = 0
             i += 1
@@ -82,12 +83,15 @@ class WindowsMain():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     continues = False
+
                 if event.type == KEYDOWN and event.key == K_RIGHT:
                     self.hero.moveCharacter("RIGHT", 40)
                     if self.hero.characterRect.collidelist(self.wall_list) > 0:
                         self.hero.moveCharacter("RIGHT", -40)
-                    if self.hero.characterRect.collidelist(self.objet_list) >= 0:
-                        self.objet.removeObjet(self.hero.characterRect.collidelist(self.objet_list))
+                    collide_test_dic = self.hero.characterRect.collidedict(self.objet_list, 1)
+                    if collide_test_dic != None:
+                        if collide_test_dic[0] in self.objet_list.keys():
+                            self.objet.removeObjet(collide_test_dic[0])
                     self.ScreenSprite()
                     self.screen.blit(self.hero.characterRight, self.hero.characterRect)
 
@@ -95,8 +99,10 @@ class WindowsMain():
                     self.hero.moveCharacter("LEFT", 40)
                     if self.hero.characterRect.collidelist(self.wall_list) > 0:
                         self.hero.moveCharacter("LEFT", -40)
-                    if self.hero.characterRect.collidelist(self.objet_list) >= 0:
-                        self.objet.removeObjet(self.hero.characterRect.collidelist(self.objet_list))
+                    collide_test_dic = self.hero.characterRect.collidedict(self.objet_list, 1)
+                    if collide_test_dic != None:
+                        if collide_test_dic[0] in self.objet_list.keys():
+                            self.objet.removeObjet(collide_test_dic[0])
                     self.ScreenSprite()
                     self.screen.blit(self.hero.characterLeft, self.hero.characterRect)
 
@@ -104,8 +110,10 @@ class WindowsMain():
                     self.hero.moveCharacter("DOWN", 40)
                     if self.hero.characterRect.collidelist(self.wall_list) > 0:
                         self.hero.moveCharacter("DOWN", -40)
-                    if self.hero.characterRect.collidelist(self.objet_list) >= 0:
-                        self.objet.removeObjet(self.hero.characterRect.collidelist(self.objet_list))
+                    collide_test_dic = self.hero.characterRect.collidedict(self.objet_list, 1)
+                    if collide_test_dic != None:
+                        if collide_test_dic[0] in self.objet_list.keys():
+                            self.objet.removeObjet(collide_test_dic[0])
                     self.ScreenSprite()
                     self.screen.blit(self.hero.characterDown, self.hero.characterRect)
 
@@ -113,8 +121,10 @@ class WindowsMain():
                     self.hero.moveCharacter("UP", 40)
                     if self.hero.characterRect.collidelist(self.wall_list) > 0:
                         self.hero.moveCharacter("UP", -40)
-                    if self.hero.characterRect.collidelist(self.objet_list) >= 0:
-                        self.objet.removeObjet(self.hero.characterRect.collidelist(self.objet_list))
+                    collide_test_dic = self.hero.characterRect.collidedict(self.objet_list, 1)
+                    if collide_test_dic != None:
+                        if collide_test_dic[0] in self.objet_list.keys():
+                            self.objet.removeObjet(collide_test_dic[0])
                     self.ScreenSprite()
                     self.screen.blit(self.hero.characterUp, self.hero.characterRect)
 

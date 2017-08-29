@@ -1,8 +1,8 @@
 class LoadMap:
     # Create variables for instance
-    def __init__(self, level=1):
+    def __init__(self, **level):
         self.mapList = []
-        self.level = level
+        self.level = level["level"]
         self.mapRead = str()
 
     # Read map in folder maps and choice of map
