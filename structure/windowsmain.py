@@ -3,7 +3,7 @@ from structure.boss import Boss
 from structure.environment import Environment
 from structure.hero import Hero
 from structure.loadmap import LoadMap
-from structure.objets import Objet
+from structure.artifacts import Artifacts
 
 
 # Initialise Class for Windows main
@@ -21,8 +21,7 @@ class WindowsMain:
         self.wall = Environment("wall.png")
         self.wall_list = list()
         self.floor = Environment("floor.png")
-        self.objet = Objet()
-        self.objet_list = dict()
+        self.artefacts = Artifacts()
         self.loadmap = LoadMap(level=1)
         self.loadmap.readFolderMap()
         self.loadmap.createMapList()
@@ -56,41 +55,41 @@ class WindowsMain:
                     self.hero.characterRect.x = x
                     self.hero.characterRect.y = y
                     self.screen.blit(self.hero.characterDown, self.hero.characterRect)
-                if self.loadmap.mapList[index_list_one][index_list_two] in self.objet.list.keys():
+                if self.loadmap.mapList[index_list_one][index_list_two] in self.artefacts.list.keys():
                     valuekeys = self.loadmap.mapList[index_list_one][index_list_two]
-                    self.objet.list_rect[valuekeys].x = x
-                    self.objet.list_rect[valuekeys].y = y
-                    #self.objet_list[valuekeys] = self.objet.list_rect[valuekeys]
-                    self.screen.blit(self.objet.list[valuekeys], self.objet.list_rect[valuekeys])
+                    self.artefacts.list_rect[valuekeys].x = x
+                    self.artefacts.list_rect[valuekeys].y = y
+                    self.screen.blit(self.artefacts.list[valuekeys], self.artefacts.list_rect[valuekeys])
 
                 index_list_two += 1
             index_list_two = 0
             index_list_one += 1
         self.SpriteCreate = True
-    def detect_collision(self,types,direction=None):
+
+    def detect_collision(self, types, direction=None):
         if types == "wall":
             if self.hero.characterRect.collidelist(self.wall_list) > 0:
                 self.hero.moveCharacter(direction, -40)
         if types == "artefact":
-            collide_test_dic = self.hero.characterRect.collidedict(self.objet.list_rect, 1)
+            collide_test_dic = self.hero.characterRect.collidedict(self.artefacts.list_rect, 1)
             if collide_test_dic != None:
-                if collide_test_dic[0] in self.objet.list.keys():
+                if collide_test_dic[0] in self.artefacts.list.keys():
                     print(collide_test_dic[0])
-                    self.objet.removeObjet(collide_test_dic[0])
-                    self.objet.scoreobjet()
+                    self.artefacts.removeObjet(collide_test_dic[0])
+                    self.artefacts.scoreobjet()
 
     def mainloop(self):
         continues = True
         while continues:
             self.screen.blit(self.background.image, (0, 0))
-            self.screen.blit(self.objet.display_artefact, (400, 10))
+            self.screen.blit(self.artefacts.display_artifact, (400, 10))
             for events in event.get():
                 if events.type == QUIT:
                     continues = False
 
                 if events.type == KEYDOWN and events.key == K_RIGHT:
                     self.hero.moveCharacter("right", 40)
-                    self.detect_collision("wall","right")
+                    self.detect_collision("wall", "right")
                     self.detect_collision("artefact")
                     self.screenSprite()
                     self.screen.blit(self.hero.characterRight, self.hero.characterRect)

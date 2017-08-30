@@ -27,7 +27,7 @@ class LoadMap:
 
     def randomObjet(self):
         iii = 0
-        while iii != len(os.listdir(os.path.join('pictures', 'artefacts'))):
+        while iii != len(os.listdir(os.path.join('pictures', 'artifacts'))):
             i = random.randrange(2, (len(self.mapList) - 2))
             ii = random.randrange(2, (len(self.mapList[i]) - 2))
             if self.mapList[i][ii] == "F":
