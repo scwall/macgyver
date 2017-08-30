@@ -1,3 +1,6 @@
+import random
+import os
+
 class LoadMap:
     # Create variables for instance
     def __init__(self, **level):
@@ -16,7 +19,18 @@ class LoadMap:
         listBuild = []
         for level in self.mapRead:
             if level is "\n":
-                self.mapList.append(listBuild[:])
+                self.mapList.append(list(listBuild))
                 listBuild = []
             else:
                 listBuild.append(level)
+        self.randomObjet()
+
+    def randomObjet(self):
+        iii = 0
+        while iii != len(os.listdir(os.path.join('pictures', 'artefacts'))):
+            i = random.randrange(2, (len(self.mapList) - 2))
+            ii = random.randrange(2, (len(self.mapList[i]) - 2))
+            if self.mapList[i][ii] == "F":
+                self.mapList[i][ii] = iii
+                iii += 1
+        return self.mapList

@@ -9,4 +9,7 @@ class Environment():
         self.rect = self.image.get_rect()
 
     def roadPictures(self, fichier):
-        return os.path.join('pictures', fichier)
+        return os.path.join('pictures','environment', fichier)
+
+
+

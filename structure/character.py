@@ -5,9 +5,9 @@ from pygame import *
 
 
 class Character:
-    def __init__(self, down, up, left, right):
+    def __init__(self, down, up, left, right,picturefolder):
         self.live = True
-
+        self.picturefolder = picturefolder
         self.characterDown = pygame.image.load(self.roadPictures(str(down))).convert()
         self.characterDown.set_colorkey((255, 255, 255))
 
@@ -22,14 +22,14 @@ class Character:
         self.characterRect = self.characterRight.get_rect()
 
     def roadPictures(self, fichier):
-        return path.join('pictures', fichier)
+        return path.join('pictures',self.picturefolder,fichier)
 
     def moveCharacter(self, directions, speed):
-        if directions == "RIGHT":
+        if directions == "right":
             self.characterRect.x += int(speed)
-        if directions == "LEFT":
+        if directions == "left":
             self.characterRect.x -= int(speed)
-        if directions == "UP":
+        if directions == "up":
             self.characterRect.y -= int(speed)
-        if directions == "DOWN":
+        if directions == "down":
             self.characterRect.y += int(speed)

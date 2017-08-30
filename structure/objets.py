@@ -1,38 +1,41 @@
 # Trouver image pour la seringle
 import os
-import random
-import pygame
-from structure.loadmap import LoadMap
+# import random
+from pygame import *
 
 
 class Objet():
-    def __init__(self, *picture):
+    white = (255, 255, 255)
+
+    def __init__(self):
         self.list = {}
         self.list_rect = {}
         i = 0
-        for picture_tuple in picture:
-            self.image = pygame.image.load(self.roadPictures(str(picture_tuple))).convert()
+        for picture_tuple in os.listdir(os.path.join('pictures', 'artefacts')):
+            self.image = image.load(self.roadPictures(str(picture_tuple))).convert()
             self.image.set_colorkey((255, 255, 255))
             self.rect = self.image.get_rect()
             self.list[i] = self.image
             self.list_rect[i] = self.rect
             i += 1
+        self.scorestart = 0
+        self.scoreend = len(self.list.keys())
+        self.display_artefact_font = font.SysFont("Arial", 15)
+        self.display_artefact = self.display_artefact_font.render(
+            'Number object {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            self.white)
 
     def roadPictures(self, fichier):
-        return os.path.join('pictures', fichier)
-
-    def randomObjet(self, map):
-        maplist = list(map)
-        iii = 0
-        while iii != len(self.list):
-            i = random.randrange(2, (len(maplist) - 2))
-            ii = random.randrange(2, (len(maplist[i]) - 2))
-            if maplist[i][ii] == "F":
-                maplist[i][ii] = iii
-                iii += 1
-            print(maplist)
-        return maplist
+        return os.path.join('pictures', 'artefacts', fichier)
 
     def removeObjet(self, number):
         if number in self.list.keys():
             del self.list[number]
+            del self.list_rect[number]
+
+    def scoreobjet(self):
+        self.scorestart += 1
+        self.display_artefact = self.display_artefact_font.render(
+            'Number object {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            self.white)
+
