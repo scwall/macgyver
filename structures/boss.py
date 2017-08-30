@@ -1,4 +1,4 @@
-from structure.character import Character
+from structures.character import Character
 
 
 class Boss(Character):

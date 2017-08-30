@@ -1,4 +1,4 @@
-from structure.windowsmain import WindowsMain
+from structures.windowsmain import WindowsMain
 import sys
 
 if __name__ == '__main__':
