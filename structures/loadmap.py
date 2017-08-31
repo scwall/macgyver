@@ -1,5 +1,7 @@
 import random
 import os
+from structures.roadpictures import roadPictures
+
 
 class LoadMap:
     # Create variables for instance
@@ -10,7 +12,7 @@ class LoadMap:
 
     # Read map in folder maps and choice of map
     def readFolderMap(self):
-        levelMap = "maps/level" + str(self.level)
+        levelMap = roadPictures("maps", "level") + str(self.level)
         with open(levelMap, "r") as map:
             self.mapRead = map.read()
 

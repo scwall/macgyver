@@ -1,7 +1,7 @@
 # Trouver image pour la seringle
-import os
-# import random
 from pygame import *
+from structures.roadpictures import roadPictures
+import os
 
 
 class Artifacts():
@@ -12,7 +12,7 @@ class Artifacts():
         self.list_rect = {}
         i = 0
         for picture_tuple in os.listdir(os.path.join('pictures', 'artifacts')):
-            self.image = image.load(self.roadPictures(str(picture_tuple))).convert()
+            self.image = image.load(roadPictures("pictures", "artifacts", picture_tuple)).convert()
             self.image.set_colorkey((255, 255, 255))
             self.rect = self.image.get_rect()
             self.list[i] = self.image
@@ -24,9 +24,6 @@ class Artifacts():
         self.display_artifact = self.display_artifact_font.render(
             'Number object {0} / {1}'.format(self.scorestart, self.scoreend), True,
             self.white)
-
-    def roadPictures(self, fichier):
-        return os.path.join('pictures', 'artifacts', fichier)
 
     def removeObjet(self, number):
         if number in self.list.keys():

@@ -1,3 +1,4 @@
+import os
 from pygame import *
 from structures.boss import Boss
 from structures.environment import Environment
@@ -12,6 +13,7 @@ class WindowsMain:
         init()
         self.width = width
         self.height = height
+        self.win_or_lose = None
         self.SpriteCreate = False
         self.screen = display.set_mode((self.width, self.height))
         self.display = display.set_caption("Help MacGyver to escape")
@@ -77,6 +79,13 @@ class WindowsMain:
                     self.artifacts.removeObjet(collide_test_dic[0])
                     self.artifacts.scoreobjet()
 
+        if types == "boss":
+            if self.hero.characterRect.colliderect(self.boss.characterRect):
+                if self.artifacts.scorestart == self.artifacts.scoreend:
+                    self.win_or_lose = True
+                else:
+                    self.win_or_lose = False
+
     def mainloop(self):
         continues = True
         while continues:
@@ -86,32 +95,42 @@ class WindowsMain:
                 if events.type == QUIT:
                     continues = False
 
-                if events.type == KEYDOWN and events.key == K_RIGHT:
+                if events.type == KEYDOWN and events.key == K_RIGHT and self.win_or_lose == None:
                     self.hero.moveCharacter("right", 40)
                     self.detect_collision("wall", "right")
                     self.detect_collision("artefact")
+                    self.detect_collision("boss")
                     self.screenSprite()
                     self.screen.blit(self.hero.characterRight, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_LEFT:
+                if events.type == KEYDOWN and events.key == K_LEFT and self.win_or_lose == None:
                     self.hero.moveCharacter("left", 40)
                     self.detect_collision("wall", "left")
                     self.detect_collision("artefact")
+                    self.detect_collision("boss")
                     self.screenSprite()
                     self.screen.blit(self.hero.characterLeft, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_DOWN:
+                if events.type == KEYDOWN and events.key == K_DOWN and self.win_or_lose == None:
                     self.hero.moveCharacter("down", 40)
                     self.detect_collision("wall", "down")
                     self.detect_collision("artefact")
+                    self.detect_collision("boss")
                     self.screenSprite()
                     self.screen.blit(self.hero.characterDown, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_UP:
+                if events.type == KEYDOWN and events.key == K_UP and self.win_or_lose == None:
                     self.hero.moveCharacter("up", 40)
                     self.detect_collision("wall", "up")
                     self.detect_collision("artefact")
+                    self.detect_collision("boss")
                     self.screenSprite()
                     self.screen.blit(self.hero.characterUp, self.hero.characterRect)
+            if self.win_or_lose is True:
+                print("win")
+                continues = False
+            if self.win_or_lose is False:
+                print("lose")
+                continues = False
 
             display.flip()
