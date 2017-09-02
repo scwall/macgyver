@@ -1,4 +1,7 @@
-import unittest
 from structures.environment import Environment
+from structures.hero import Hero
 
-test = Environment("picture")
+
+class Test_environment(Environment):
+    def __init__(self):
+        super().__init__("testdrive.png")

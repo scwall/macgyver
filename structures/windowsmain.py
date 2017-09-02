@@ -1,10 +1,9 @@
-import os
 from pygame import *
+from structures.artifacts import Artifacts
 from structures.boss import Boss
 from structures.environment import Environment
 from structures.hero import Hero
 from structures.loadmap import LoadMap
-from structures.artifacts import Artifacts
 
 
 # Initialise Class for Windows main
@@ -13,25 +12,35 @@ class WindowsMain:
         init()
         self.width = width
         self.height = height
-        self.win_or_lose = None
         self.SpriteCreate = False
         self.screen = display.set_mode((self.width, self.height))
         self.display = display.set_caption("Help MacGyver to escape")
         self.background = Environment("background.png")
+        self.win_or_lose = None
+        self.wall_list = list()
+        self.win = Environment("win.png")
+        self.win.image.set_colorkey((255, 255, 255))
+        self.lose = Environment("lose.png")
+        self.lose.image.set_colorkey((255, 255, 255))
         self.hero = Hero("down_hero.png", "up_hero.png", "left_hero.png", "right_hero.png")
         self.boss = Boss("down_boss.png", "up_boss.png", "left_boss.png", "right_boss.png")
         self.wall = Environment("wall.png")
-        self.wall_list = list()
         self.floor = Environment("floor.png")
         self.artifacts = Artifacts()
         self.loadmap = LoadMap(level=1)
         self.loadmap.readFolderMap()
         self.loadmap.createMapList()
-        self.screenSprite()
+        self.screensprite()
         display.flip()
         key.set_repeat(5, 50)
 
-    def screenSprite(self):
+    def screensprite(self):
+        """
+        This method calculates the index of each list and looks at the letter of the map,
+        it then creates the sprites of the environment and the appliques to the rectangle drawn by
+        contribution to the size of the sprite. True or False is added to the hero
+        so that it is not drawn every time the map is redrawn
+        """
         index_list_one = 0
         index_list_two = 0
 
@@ -69,16 +78,23 @@ class WindowsMain:
         self.SpriteCreate = True
 
     def detect_collision(self, types, direction=None):
+        """
+        This method allows the detection of collision between object:
+        :param types:
+        Defined the type of the object, as for example if there is collision with the boss,
+        it will look if all objects have been collected
+        :param direction:
+        Defined the direction of the character to prevent it from entering an object
+        """
         if types == "wall":
             if self.hero.characterRect.collidelist(self.wall_list) > 0:
-                self.hero.moveCharacter(direction, -40)
+                self.hero.move_character(direction, -40)
         if types == "artefact":
             collide_test_dic = self.hero.characterRect.collidedict(self.artifacts.list_rect, 1)
-            if collide_test_dic != None:
+            if collide_test_dic is not None:
                 if collide_test_dic[0] in self.artifacts.list.keys():
-                    self.artifacts.removeObjet(collide_test_dic[0])
-                    self.artifacts.scoreobjet()
-
+                    self.artifacts.remove_objet(collide_test_dic[0])
+                    self.artifacts.score_objet()
         if types == "boss":
             if self.hero.characterRect.colliderect(self.boss.characterRect):
                 if self.artifacts.scorestart == self.artifacts.scoreend:
@@ -87,50 +103,58 @@ class WindowsMain:
                     self.win_or_lose = False
 
     def mainloop(self):
+        """
+       Main loop of the game, here we analyze the keys pressed,
+       the closing of the window, the collisions between object and if the hero has lost or win
+        """
         continues = True
         while continues:
             self.screen.blit(self.background.image, (0, 0))
-            self.screen.blit(self.artifacts.display_artifact, (400, 10))
+            self.screen.blit(self.artifacts.display_artifact, (485, 80))
+
             for events in event.get():
                 if events.type == QUIT:
                     continues = False
 
-                if events.type == KEYDOWN and events.key == K_RIGHT and self.win_or_lose == None:
-                    self.hero.moveCharacter("right", 40)
-                    self.detect_collision("wall", "right")
-                    self.detect_collision("artefact")
-                    self.detect_collision("boss")
-                    self.screenSprite()
-                    self.screen.blit(self.hero.characterRight, self.hero.characterRect)
+                if events.type == KEYDOWN and events.key == K_RIGHT:
+                    if self.win_or_lose is None:
+                        self.hero.move_character("right", 40)
+                        self.detect_collision("wall", "right")
+                        self.detect_collision("artefact")
+                        self.detect_collision("boss")
+                        self.screensprite()
+                        self.screen.blit(self.hero.characterRight, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_LEFT and self.win_or_lose == None:
-                    self.hero.moveCharacter("left", 40)
-                    self.detect_collision("wall", "left")
-                    self.detect_collision("artefact")
-                    self.detect_collision("boss")
-                    self.screenSprite()
-                    self.screen.blit(self.hero.characterLeft, self.hero.characterRect)
+                if events.type == KEYDOWN and events.key == K_LEFT:
+                    if self.win_or_lose is None:
+                        self.hero.move_character("left", 40)
+                        self.detect_collision("wall", "left")
+                        self.detect_collision("artefact")
+                        self.detect_collision("boss")
+                        self.screensprite()
+                        self.screen.blit(self.hero.characterLeft, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_DOWN and self.win_or_lose == None:
-                    self.hero.moveCharacter("down", 40)
-                    self.detect_collision("wall", "down")
-                    self.detect_collision("artefact")
-                    self.detect_collision("boss")
-                    self.screenSprite()
-                    self.screen.blit(self.hero.characterDown, self.hero.characterRect)
+                if events.type == KEYDOWN and events.key == K_DOWN:
+                    if self.win_or_lose is None:
+                        self.hero.move_character("down", 40)
+                        self.detect_collision("wall", "down")
+                        self.detect_collision("artefact")
+                        self.detect_collision("boss")
+                        self.screensprite()
+                        self.screen.blit(self.hero.characterDown, self.hero.characterRect)
 
-                if events.type == KEYDOWN and events.key == K_UP and self.win_or_lose == None:
-                    self.hero.moveCharacter("up", 40)
-                    self.detect_collision("wall", "up")
-                    self.detect_collision("artefact")
-                    self.detect_collision("boss")
-                    self.screenSprite()
-                    self.screen.blit(self.hero.characterUp, self.hero.characterRect)
+                if events.type == KEYDOWN and events.key == K_UP:
+                    if self.win_or_lose is None:
+                        self.hero.move_character("up", 40)
+                        self.detect_collision("wall", "up")
+                        self.detect_collision("artefact")
+                        self.detect_collision("boss")
+                        self.screensprite()
+                        self.screen.blit(self.hero.characterUp, self.hero.characterRect)
             if self.win_or_lose is True:
-                print("win")
-                continues = False
+                self.screen.blit(self.win.image, (100, 300))
+
             if self.win_or_lose is False:
-                print("lose")
-                continues = False
+                self.screen.blit(self.lose.image, (10, 300))
 
             display.flip()

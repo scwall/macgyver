@@ -4,7 +4,7 @@ from structures.roadpictures import roadPictures
 import os
 
 
-class Artifacts():
+class Artifacts:
     white = (255, 255, 255)
 
     def __init__(self):
@@ -20,18 +20,18 @@ class Artifacts():
             i += 1
         self.scorestart = 0
         self.scoreend = len(self.list.keys())
-        self.display_artifact_font = font.SysFont("Arial", 15)
+        self.display_artifact_font = font.SysFont("Arial", 15, bold=True, italic=False)
         self.display_artifact = self.display_artifact_font.render(
-            'Number object {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            'Numbers objects {0} / {1}'.format(self.scorestart, self.scoreend), True,
             self.white)
 
-    def removeObjet(self, number):
+    def remove_objet(self, number):
         if number in self.list.keys():
             del self.list[number]
             del self.list_rect[number]
 
-    def scoreobjet(self):
+    def score_objet(self):
         self.scorestart += 1
         self.display_artifact = self.display_artifact_font.render(
-            'Number object {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            'Numbers objects {0} / {1}'.format(self.scorestart, self.scoreend), True,
             self.white)
