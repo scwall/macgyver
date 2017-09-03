@@ -1,7 +1,8 @@
 # macgyver
 
-##help MacGyver to escape
-
+help MacGyver to escape
+--
+--
 In the game, you must harvest all objects to create a hypodermic gun, to sleep the guard
 
 ##Getting Started
