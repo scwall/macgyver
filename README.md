@@ -1,11 +1,11 @@
 # macgyver
 
-##help MacGyver to escape
-
+help MacGyver to escape
+------------------------
 In the game, you must harvest all objects to create a hypodermic gun, to sleep the guard
 
-##Getting Started
-
+Getting Started
+------------------
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 Prerequisites
@@ -13,8 +13,8 @@ Prerequisites
 + pygame
 
 
-###Installing
-
+Installing
+------------------
 to install python: https://www.python.org/downloads/
 
 then install pygame please do it in a console, on linux or windows: 
