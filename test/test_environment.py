@@ -11,5 +11,4 @@ def test_environment():
 
     environment.set_environment_rect(1, 2)
 
-    assert environment.rect.x == 1
-    assert environment.rect.y == 2
+    assert str(environment.rect) == "<rect(1, 2, 40, 40)>"

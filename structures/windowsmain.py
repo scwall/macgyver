@@ -18,6 +18,7 @@ class WindowsMain:
         self.display = display.set_caption("Help MacGyver to escape")
         self.background = Environment("background.png")
         self.win_or_lose = None
+        self.wall = Environment("wall.png")
         self.wall_list = list()
         self.win = Environment("win.png")
         self.win.image.set_colorkey((255, 255, 255))
@@ -28,13 +29,13 @@ class WindowsMain:
         self.floor = Environment("floor.png")
         self.artifacts = Artifacts()
         self.loadmap = LoadMap(level=1)
-        self.loadmap.readFolderMap()
-        self.loadmap.createMapList()
-        self.screenSprite()
+        self.loadmap.read_folder_map()
+        self.loadmap.create_map_list()
+        self.screen_sprite()
         display.flip()
         key.set_repeat(6, 80)
 
-    def screenSprite(self):
+    def screen_sprite(self):
         """
         This method calculates the index of each list and looks at the letter of the map,
         it then creates the sprites of the environment and the appliques to the rectangle drawn by
@@ -125,7 +126,7 @@ class WindowsMain:
                         self.detect_collision("wall", "right")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screenSprite()
+                        self.screen_sprite()
                         self.screen.blit(self.hero.get_positioning("right"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_LEFT:
                     if self.win_or_lose is None:
@@ -133,7 +134,7 @@ class WindowsMain:
                         self.detect_collision("wall", "left")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screenSprite()
+                        self.screen_sprite()
                         self.screen.blit(self.hero.get_positioning("left"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_DOWN:
                     if self.win_or_lose is None:
@@ -141,7 +142,7 @@ class WindowsMain:
                         self.detect_collision("wall", "down")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screenSprite()
+                        self.screen_sprite()
                         self.screen.blit(self.hero.get_positioning("down"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_UP:
                     if self.win_or_lose is None:
@@ -149,7 +150,7 @@ class WindowsMain:
                         self.detect_collision("wall", "up")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screenSprite()
+                        self.screen_sprite()
                         self.screen.blit(self.hero.get_positioning("up"), self.hero.get_character_rect)
             if self.win_or_lose is True:
                 self.screen.blit(self.win.image, (100, 300))

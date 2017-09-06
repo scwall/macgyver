@@ -1,6 +1,6 @@
 import pygame
 from pygame import *
-from structures.roadpictures import roadPictures
+from structures.roadpictures import road_pictures
 
 
 # Loading the surface of the image and loading the rectangular surface of the image
@@ -8,16 +8,16 @@ class Character:
     def __init__(self, down, up, left, right, picturefolder):
         self.live = True
         self.picture_folder = picturefolder
-        self.character_down = pygame.image.load(roadPictures("pictures", picturefolder, down)).convert()
+        self.character_down = pygame.image.load(road_pictures("pictures", picturefolder, down)).convert()
         self.character_down.set_colorkey((255, 255, 255))
 
-        self.character_up = pygame.image.load(roadPictures("pictures", picturefolder, up)).convert()
+        self.character_up = pygame.image.load(road_pictures("pictures", picturefolder, up)).convert()
         self.character_up.set_colorkey((255, 255, 255))
 
-        self.character_left = pygame.image.load(roadPictures("pictures", picturefolder, left)).convert()
+        self.character_left = pygame.image.load(road_pictures("pictures", picturefolder, left)).convert()
         self.character_left.set_colorkey((255, 255, 255))
 
-        self.character_right = pygame.image.load(roadPictures("pictures", picturefolder, right)).convert()
+        self.character_right = pygame.image.load(road_pictures("pictures", picturefolder, right)).convert()
         self.character_right.set_colorkey((255, 255, 255))
         self.character_rect = self.character_right.get_rect()
 

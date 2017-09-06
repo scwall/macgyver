@@ -1,6 +1,6 @@
 # Trouver image pour la seringle
 from pygame import *
-from structures.roadpictures import roadPictures
+from structures.roadpictures import road_pictures
 import os
 
 
@@ -12,7 +12,7 @@ class Artifacts:
         self.dic_rect = {}
         i = 0
         for picture_tuple in os.listdir(os.path.join('pictures', 'artifacts')):
-            self.image = image.load(roadPictures("pictures", "artifacts", picture_tuple)).convert()
+            self.image = image.load(road_pictures("pictures", "artifacts", picture_tuple)).convert()
             self.image.set_colorkey((255, 255, 255))
             self.rect = self.image.get_rect()
             self.dic[i] = self.image

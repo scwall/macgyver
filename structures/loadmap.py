@@ -1,6 +1,6 @@
 import random
 import os
-from structures.roadpictures import roadPictures
+from structures.roadpictures import road_pictures
 
 
 class LoadMap:
@@ -11,23 +11,23 @@ class LoadMap:
         self.mapRead = str()
 
     # Read map in folder maps and choice of map
-    def readFolderMap(self):
-        levelMap = roadPictures("maps", "level") + str(self.level)
-        with open(levelMap, "r") as map:
+    def read_folder_map(self):
+        level_map = road_pictures("maps", "level") + str(self.level)
+        with open(level_map, "r") as map:
             self.mapRead = map.read()
 
     # Create list on two level
-    def createMapList(self):
-        listBuild = []
+    def create_map_list(self):
+        list_build = []
         for level in self.mapRead:
             if level is "\n":
-                self.mapList.append(list(listBuild))
-                listBuild = []
+                self.mapList.append(list(list_build))
+                list_build = []
             else:
-                listBuild.append(level)
-        self.randomObjet()
+                list_build.append(level)
+        self.random_objet()
 
-    def randomObjet(self):
+    def random_objet(self):
         counter_object = 0
         while counter_object != len(os.listdir(os.path.join('pictures', 'artifacts'))):
             index_one = random.randrange(2, (len(self.mapList) - 2))
