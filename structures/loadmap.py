@@ -28,11 +28,11 @@ class LoadMap:
         self.randomObjet()
 
     def randomObjet(self):
-        iii = 0
-        while iii != len(os.listdir(os.path.join('pictures', 'artifacts'))):
-            i = random.randrange(2, (len(self.mapList) - 2))
-            ii = random.randrange(2, (len(self.mapList[i]) - 2))
-            if self.mapList[i][ii] == "F":
-                self.mapList[i][ii] = iii
-                iii += 1
+        counter_object = 0
+        while counter_object != len(os.listdir(os.path.join('pictures', 'artifacts'))):
+            index_one = random.randrange(2, (len(self.mapList) - 2))
+            index_two = random.randrange(2, (len(self.mapList[index_one]) - 2))
+            if self.mapList[index_one][index_two] == "F":
+                self.mapList[index_one][index_two] = counter_object
+                counter_object += 1
         return self.mapList

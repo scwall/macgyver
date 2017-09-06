@@ -7,7 +7,7 @@ from structures.roadpictures import roadPictures
 class Character:
     def __init__(self, down, up, left, right, picturefolder):
         self.live = True
-        self.picturefolder = picturefolder
+        self.picture_folder = picturefolder
         self.character_down = pygame.image.load(roadPictures("pictures", picturefolder, down)).convert()
         self.character_down.set_colorkey((255, 255, 255))
 

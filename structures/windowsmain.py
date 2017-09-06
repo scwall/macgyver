@@ -13,6 +13,7 @@ class WindowsMain:
         self.width = width
         self.height = height
         self.SpriteCreate = False
+        self.SpriteCreateTwo = False
         self.screen = display.set_mode((self.width, self.height))
         self.display = display.set_caption("Help MacGyver to escape")
         self.background = Environment("background.png")
@@ -24,17 +25,16 @@ class WindowsMain:
         self.lose.image.set_colorkey((255, 255, 255))
         self.hero = Hero("down_hero.png", "up_hero.png", "left_hero.png", "right_hero.png")
         self.boss = Boss("down_boss.png", "up_boss.png", "left_boss.png", "right_boss.png")
-        self.wall = Environment("wall.png")
         self.floor = Environment("floor.png")
         self.artifacts = Artifacts()
         self.loadmap = LoadMap(level=1)
         self.loadmap.readFolderMap()
         self.loadmap.createMapList()
-        self.screensprite()
+        self.screenSprite()
         display.flip()
-        key.set_repeat(5, 50)
+        key.set_repeat(6, 80)
 
-    def screensprite(self):
+    def screenSprite(self):
         """
         This method calculates the index of each list and looks at the letter of the map,
         it then creates the sprites of the environment and the appliques to the rectangle drawn by
@@ -48,21 +48,28 @@ class WindowsMain:
             while index_list_two != len(self.loadmap.mapList[index_list_one]):
                 x = index_list_two * 40
                 y = index_list_one * 40 + 142
-                self.floor = Environment("floor.png")
-                self.floor.set_environment_rect(x, y)
-                self.screen.blit(self.floor.image, self.floor.rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] == "W":
+                if self.loadmap.mapList[index_list_one][index_list_two] is not "W":
+                    if self.SpriteCreate is False:
+                        self.floor.set_environment_rect(x, y)
+                        self.screen.blit(self.floor.image, self.floor.rect)
+                    elif self.loadmap.mapList[index_list_one][index_list_two] is not "B" and \
+                                    self.loadmap.mapList[index_list_one][
+                                        index_list_two] not in self.artifacts.dic.keys():
+                        self.floor.set_environment_rect(x, y)
+                        self.screen.blit(self.floor.image, self.floor.rect)
+                if self.loadmap.mapList[index_list_one][index_list_two] == "W" and self.SpriteCreate is False:
                     self.wall = Environment("wall.png")
                     self.wall.set_environment_rect(x, y)
                     self.wall_list.append(self.wall.rect)
                     self.screen.blit(self.wall.image, self.wall.rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] == "B":
+                if self.loadmap.mapList[index_list_one][index_list_two] == "B" and self.SpriteCreate is False:
                     self.boss.set_character_rect(x, y)
                     self.screen.blit(self.boss.get_positioning("up"), self.boss.get_character_rect)
                 if self.loadmap.mapList[index_list_one][index_list_two] == "C" and self.SpriteCreate is False:
                     self.hero.set_character_rect(x, y)
                     self.screen.blit(self.hero.get_positioning("down"), self.hero.get_character_rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] in self.artifacts.dic.keys():
+                if self.loadmap.mapList[index_list_one][
+                    index_list_two] in self.artifacts.dic.keys() and self.SpriteCreate is False:
                     valuekeys = self.loadmap.mapList[index_list_one][index_list_two]
                     self.artifacts.set_dic_rect(valuekeys, x, y)
                     self.screen.blit(self.artifacts.get_dic(valuekeys), self.artifacts.get_dic_rect(valuekeys))
@@ -104,6 +111,7 @@ class WindowsMain:
         """
         continues = True
         while continues:
+            time.Clock().tick(30)
             self.screen.blit(self.background.image, (0, 0))
             self.screen.blit(self.artifacts.display_artifact, (475, 80))
 
@@ -117,7 +125,7 @@ class WindowsMain:
                         self.detect_collision("wall", "right")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screensprite()
+                        self.screenSprite()
                         self.screen.blit(self.hero.get_positioning("right"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_LEFT:
                     if self.win_or_lose is None:
@@ -125,7 +133,7 @@ class WindowsMain:
                         self.detect_collision("wall", "left")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screensprite()
+                        self.screenSprite()
                         self.screen.blit(self.hero.get_positioning("left"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_DOWN:
                     if self.win_or_lose is None:
@@ -133,7 +141,7 @@ class WindowsMain:
                         self.detect_collision("wall", "down")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screensprite()
+                        self.screenSprite()
                         self.screen.blit(self.hero.get_positioning("down"), self.hero.get_character_rect)
                 if events.type == KEYDOWN and events.key == K_UP:
                     if self.win_or_lose is None:
@@ -141,7 +149,7 @@ class WindowsMain:
                         self.detect_collision("wall", "up")
                         self.detect_collision("artefact")
                         self.detect_collision("boss")
-                        self.screensprite()
+                        self.screenSprite()
                         self.screen.blit(self.hero.get_positioning("up"), self.hero.get_character_rect)
             if self.win_or_lose is True:
                 self.screen.blit(self.win.image, (100, 300))

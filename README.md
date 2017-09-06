@@ -41,4 +41,4 @@ License
 This project is licensed under the GNU License
 
 Acknowledgments
-I would like to thank my teacher for his advice, my wife for her patient, and the cactus, because it is nice my cactus
+I would like to thank my teacher for his advice,my classmates, my wife for her patient, and the cactus, because it is nice my cactus
