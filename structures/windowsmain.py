@@ -12,8 +12,7 @@ class WindowsMain:
         init()
         self.width = width
         self.height = height
-        self.SpriteCreate = False
-        self.SpriteCreateTwo = False
+        self.sprite_create = False
         self.screen = display.set_mode((self.width, self.height))
         self.display = display.set_caption("Help MacGyver to escape")
         self.background = Environment("background.png")
@@ -28,9 +27,9 @@ class WindowsMain:
         self.boss = Boss("down_boss.png", "up_boss.png", "left_boss.png", "right_boss.png")
         self.floor = Environment("floor.png")
         self.artifacts = Artifacts()
-        self.loadmap = LoadMap(level=1)
-        self.loadmap.read_folder_map()
-        self.loadmap.create_map_list()
+        self.load_map = LoadMap(level=1)
+        self.load_map.read_folder_map()
+        self.load_map.create_map_list()
         self.screen_sprite()
         display.flip()
         key.set_repeat(6, 80)
@@ -45,40 +44,40 @@ class WindowsMain:
         index_list_one = 0
         index_list_two = 0
 
-        while index_list_one != len(self.loadmap.mapList):
-            while index_list_two != len(self.loadmap.mapList[index_list_one]):
+        while index_list_one != len(self.load_map.map_list):
+            while index_list_two != len(self.load_map.map_list[index_list_one]):
                 x = index_list_two * 40
                 y = index_list_one * 40 + 142
-                if self.loadmap.mapList[index_list_one][index_list_two] is not "W":
-                    if self.SpriteCreate is False:
+                if self.load_map.map_list[index_list_one][index_list_two] is not "W":
+                    if self.sprite_create is False:
                         self.floor.set_environment_rect(x, y)
                         self.screen.blit(self.floor.image, self.floor.rect)
-                    elif self.loadmap.mapList[index_list_one][index_list_two] is not "B" and \
-                                    self.loadmap.mapList[index_list_one][
+                    elif self.load_map.map_list[index_list_one][index_list_two] is not "B" and \
+                                    self.load_map.map_list[index_list_one][
                                         index_list_two] not in self.artifacts.dic.keys():
                         self.floor.set_environment_rect(x, y)
                         self.screen.blit(self.floor.image, self.floor.rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] == "W" and self.SpriteCreate is False:
+                if self.load_map.map_list[index_list_one][index_list_two] == "W" and self.sprite_create is False:
                     self.wall = Environment("wall.png")
                     self.wall.set_environment_rect(x, y)
                     self.wall_list.append(self.wall.rect)
                     self.screen.blit(self.wall.image, self.wall.rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] == "B" and self.SpriteCreate is False:
+                if self.load_map.map_list[index_list_one][index_list_two] == "B" and self.sprite_create is False:
                     self.boss.set_character_rect(x, y)
                     self.screen.blit(self.boss.get_positioning("up"), self.boss.get_character_rect)
-                if self.loadmap.mapList[index_list_one][index_list_two] == "C" and self.SpriteCreate is False:
+                if self.load_map.map_list[index_list_one][index_list_two] == "C" and self.sprite_create is False:
                     self.hero.set_character_rect(x, y)
                     self.screen.blit(self.hero.get_positioning("down"), self.hero.get_character_rect)
-                if self.loadmap.mapList[index_list_one][
-                    index_list_two] in self.artifacts.dic.keys() and self.SpriteCreate is False:
-                    valuekeys = self.loadmap.mapList[index_list_one][index_list_two]
+                if self.load_map.map_list[index_list_one][
+                    index_list_two] in self.artifacts.dic.keys() and self.sprite_create is False:
+                    valuekeys = self.load_map.map_list[index_list_one][index_list_two]
                     self.artifacts.set_dic_rect(valuekeys, x, y)
                     self.screen.blit(self.artifacts.get_dic(valuekeys), self.artifacts.get_dic_rect(valuekeys))
 
                 index_list_two += 1
             index_list_two = 0
             index_list_one += 1
-        self.SpriteCreate = True
+        self.sprite_create = True
 
     def detect_collision(self, types, direction=None):
         """
@@ -100,7 +99,7 @@ class WindowsMain:
                     self.artifacts.score_objet()
         if types == "boss":
             if self.hero.character_rect.colliderect(self.boss.character_rect):
-                if self.artifacts.scorestart == self.artifacts.scoreend:
+                if self.artifacts.score_start == self.artifacts.score_end:
                     self.win_or_lose = True
                 else:
                     self.win_or_lose = False

@@ -18,11 +18,11 @@ class Artifacts:
             self.dic[i] = self.image
             self.dic_rect[i] = self.rect
             i += 1
-        self.scorestart = 0
-        self.scoreend = len(self.dic.keys())
+        self.score_start = 0
+        self.score_end = len(self.dic.keys())
         self.display_artifact_font = font.SysFont("Arial", 15, bold=True, italic=False)
         self.display_artifact = self.display_artifact_font.render(
-            'Numbers artifacts {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            'Numbers artifacts {0} / {1}'.format(self.score_start, self.score_end), True,
             self.white)
 
     def remove_objet(self, number):
@@ -31,9 +31,9 @@ class Artifacts:
             del self.dic_rect[number]
 
     def score_objet(self):
-        self.scorestart += 1
+        self.score_start += 1
         self.display_artifact = self.display_artifact_font.render(
-            'Numbers artifacts {0} / {1}'.format(self.scorestart, self.scoreend), True,
+            'Numbers artifacts {0} / {1}'.format(self.score_start, self.score_end), True,
             self.white)
 
     def get_dic(self, values):
