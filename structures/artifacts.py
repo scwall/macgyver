@@ -25,12 +25,12 @@ class Artifacts:
             'Numbers artifacts {0} / {1}'.format(self.score_start, self.score_end), True,
             self.white)
 
-    def remove_objet(self, number):
+    def remove_object(self, number):
         if number in self.dic.keys():
             del self.dic[number]
             del self.dic_rect[number]
 
-    def score_objet(self):
+    def score_object(self):
         self.score_start += 1
         self.display_artifact = self.display_artifact_font.render(
             'Numbers artifacts {0} / {1}'.format(self.score_start, self.score_end), True,

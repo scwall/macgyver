@@ -95,8 +95,8 @@ class WindowsMain:
             collide_test_dic = self.hero.character_rect.collidedict(self.artifacts.dic_rect, 1)
             if collide_test_dic is not None:
                 if collide_test_dic[0] in self.artifacts.dic.keys():
-                    self.artifacts.remove_objet(collide_test_dic[0])
-                    self.artifacts.score_objet()
+                    self.artifacts.remove_object(collide_test_dic[0])
+                    self.artifacts.score_object()
         if types == "boss":
             if self.hero.character_rect.colliderect(self.boss.character_rect):
                 if self.artifacts.score_start == self.artifacts.score_end:
@@ -104,7 +104,7 @@ class WindowsMain:
                 else:
                     self.win_or_lose = False
 
-    def mainloop(self):
+    def main_loop(self):
         """
        Main loop of the game, here we analyze the keys pressed,
        the closing of the window, the collisions between object and if the hero has lost or win

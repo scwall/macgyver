@@ -2,4 +2,4 @@ from structures.windowsmain import WindowsMain
 
 if __name__ == '__main__':
     main = WindowsMain()
-    main.mainloop()
+    main.main_loop()
