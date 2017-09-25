@@ -1,18 +1,19 @@
 import random
 import os
-from structures.roadpictures import road_pictures
+from structures.roadospath import road_os_path
 
 
 class LoadMap:
     # Create variables for instance
-    def __init__(self, **level):
+    def __init__(self, **levels):
         self.map_list = []
-        self.level = level["level"]
+        self.level = levels["level"]
         self.map_read = str()
-
+        self.read_folder_map()
+        self.create_map_list()
     # Read map in folder maps and choice of map
     def read_folder_map(self):
-        level_map = road_pictures("maps", "level") + str(self.level)
+        level_map = road_os_path("maps", "level") + str(self.level)
         with open(level_map, "r") as map:
             self.map_read = map.read()
 

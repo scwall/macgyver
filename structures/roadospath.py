@@ -1,5 +1,5 @@
 import os
 
 
-def road_pictures(*roadfile):
+def road_os_path(*roadfile):
     return os.path.join(os.getcwd(), *roadfile)

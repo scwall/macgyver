@@ -28,8 +28,6 @@ class WindowsMain:
         self.floor = Environment("floor.png")
         self.artifacts = Artifacts()
         self.load_map = LoadMap(level=1)
-        self.load_map.read_folder_map()
-        self.load_map.create_map_list()
         self.screen_sprite()
         display.flip()
         key.set_repeat(6, 80)
